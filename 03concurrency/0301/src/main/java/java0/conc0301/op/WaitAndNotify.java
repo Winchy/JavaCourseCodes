@@ -47,12 +47,12 @@ class MethodClass {
             if (productCount >= MAX_COUNT) {
                 System.out.println("货舱已满,,.不必再生产");
                 
+                notifyAll();
                 wait();
             }else {
                 productCount++;
             }
-            
-            notifyAll();
+//            System.out.println("1");
         }
     }
     
@@ -62,12 +62,12 @@ class MethodClass {
             Thread.sleep(10);
             if (productCount <= 0) {
                 System.out.println("货舱已无货...无法消费");
+                notifyAll();
                 wait();
             }else {
                 productCount--;
             }
             
-            notifyAll();
         }
     }
 }

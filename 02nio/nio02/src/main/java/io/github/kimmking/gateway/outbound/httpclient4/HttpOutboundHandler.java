@@ -1,6 +1,7 @@
 package io.github.kimmking.gateway.outbound.httpclient4;
 
 
+import io.github.kimmking.gateway.outbound.IHttpOutboundHandler;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
@@ -23,7 +24,7 @@ import static io.netty.handler.codec.http.HttpResponseStatus.NO_CONTENT;
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
-public class HttpOutboundHandler {
+public class HttpOutboundHandler implements IHttpOutboundHandler {
     
     private CloseableHttpAsyncClient httpclient;
     private ExecutorService proxyService;
@@ -55,6 +56,7 @@ public class HttpOutboundHandler {
     }
     
     public void handle(final FullHttpRequest fullRequest, final ChannelHandlerContext ctx) {
+        fullRequest.headers();
         final String url = this.backendUrl + fullRequest.uri();
         proxyService.submit(()->fetchGet(fullRequest, ctx, url));
     }
